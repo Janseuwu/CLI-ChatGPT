@@ -1,0 +1,32 @@
+#!/usr/bin/bash
+
+# Get API key from the keyfile
+# I sure hope this matches setup.sh
+KEYFILE="${XDG_STATE_HOME:-$HOME/.local/state}/ChatGPT-CLI/openai_api_key"
+
+if [[ -f "$KEYFILE" ]]; then
+	# Do what the thing with the reading and the file
+	source "$KEYFILE"
+
+	# Ensure it actually set the thing
+	if [[ ! -v OPENAI_API_KEY ]]; then
+		echo "Keyfile is malformed" >&2
+		exit 1
+	fi
+else
+	echo "Must set API key first!" >&2
+	exit 1
+fi
+
+MESSAGE=$1
+
+# api call
+
+curl -s https://api.openai.com/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer $OPENAI_API_KEY" \
+  -d '{
+     "model": "gpt-3.5-turbo",
+     "messages": [{"role": "user", "content": "'"$MESSAGE"'"}],
+     "temperature": 0.7
+}' | jq -r .choices[0].message.content
