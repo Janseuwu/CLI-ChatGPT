@@ -1,4 +1,4 @@
-# Github-CLI
+# CLI-ChatGPT
 Tool for interacting with ChatGPT directly from the terminal commandline.
 
 ## TODO
