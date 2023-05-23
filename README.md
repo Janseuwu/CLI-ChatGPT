@@ -28,13 +28,17 @@ Also run `exec <your_shell>` to reload the changes.
 Thats it! Enjoy.
 
 ## Usage
-If you want to use multiple arguments (like spaces in a sentence) then add " between your prompt.
+To use the tool, simply put `gpt "message"`. Generally you want to put your messages in quotes (" or ').
 ```
 gpt "Hey, did Epstein kill himself?"
 ```
-Otherwise you can just run it with a single argument without ".
+Otherwise you can just run it with a single argument without quotes.
 ```
 gpt Hey
+```
+To clear the chat session and start a new conversation, simply use
+```
+gpt clear_session
 ```
 
 ## TODO
