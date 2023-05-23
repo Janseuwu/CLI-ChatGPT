@@ -19,11 +19,11 @@ sh setup.sh
 
 The setup will ask for a OpenAI API-key. You can get your key on [OpenAI's website](https://platform.openai.com/account/api-keys)
 
-Lastly add gpt to your path by adding
+Lastly the following line to your rc-file.
 ```
 export PATH="$HOME/.local/bin:$PATH"
 ```
-To your shells rc-file. Also run `exec <your_shell>` to reload it.
+Also run `exec <your_shell>` to reload the changes.
 
 Thats it! Enjoy.
 
