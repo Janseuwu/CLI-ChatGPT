@@ -40,4 +40,5 @@ gpt Hey
 ## TODO
 - Keep track of the session history, perhaps a restart_session function.
 - Echo what is happening in setup.sh
+- Have the API type out each word instead of dumping the answer.
 - Ignore symlink creation if it already exists
