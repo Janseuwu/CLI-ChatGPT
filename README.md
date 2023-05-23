@@ -28,7 +28,7 @@ Also run `exec <your_shell>` to reload the changes.
 Thats it! Enjoy.
 
 ## Usage
-To use the tool, simply put `gpt "message"`. Generally you want to put your messages in quotes (" or ').
+To use the tool, simply put `gpt <message>`. Generally you want to put your messages in quotes (" or ').
 ```
 gpt "Hey, did Epstein kill himself?"
 ```
