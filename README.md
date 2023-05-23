@@ -39,4 +39,5 @@ gpt Hey
 
 ## TODO
 - Keep track of the session history, perhaps a restart_session function.
+- Echo what is happening in setup.sh
 - Ignore symlink creation if it already exists
