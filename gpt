@@ -1,12 +1,11 @@
 #!/usr/bin/sh
 
-set -x
-
 # Get API key from the keyfile
 # I sure hope this matches setup.sh
 MESSAGE=$1
 KEYFILE="${XDG_STATE_HOME:-$HOME/.local/state}/ChatGPT-CLI/openai_api_key"
 HISTORYFILE="${XDG_STATE_HOME:-$HOME/.local/state}/ChatGPT-CLI/session_history"
+source "$HISTORYFILE"
 
 function clear_session() {
 	printf "export USER_SESSION_HISTORY=\"\"\nexport ASSISTANT_SESSION_HISTORY=\"\"" > "$HISTORYFILE"
@@ -31,13 +30,29 @@ else
 		exit 1
 	fi
 	
-	# replace user history string with the updated version	
-	if [[ -f "$HISTORYFILE" ]]; then
-		source "$HISTORYFILE"
-		sed -i "1s/\"$USER_SESSION_HISTORY\"/\"$MESSAGE:$USER_SESSION_HISTORY\"/" "$HISTORYFILE"
-		source "$HISTORYFILE"
-	fi
-	
+	# create lists with conversation history
+	# user history
+	IFS=":" read -a PAST_PROMPTS_LIST <<< "$USER_SESSION_HISTORY"
+	PAST_PROMPTS=()
+	for item in "${PAST_PROMPTS_LIST[@]}"; do
+		PAST_PROMPTS+="{\"role\": \"user\", \"content\": \"$item\"}"
+	done	
+	echo "${PAST_PROMPTS}"
+	# assistant history
+	IFS=":" read -a PAST_RESPONSE_LIST <<< "$ASSISTANT_SESSION_HISTORY"
+	PAST_RESPONSES=()
+	for item in "${PAST_RESPONSE_LIST[@]}"; do
+		PAST_RESPONSES+="{\"role\": \"assistant\", \"content\": \"$item\"}"
+	done	
+	echo "${PAST_RESPONSES}"
+	PAST_CONVERSATION=()
+	LENGTH=$(( ${#PAST_RESPONSES[@]} - 1 ))
+	for (( i=$LENGTH; i>=0; i-- )); do
+		PAST_CONVERSATION+=("${PAST_PROMPTS[i]}")
+		PAST_CONVERSATION+=("${PAST_RESPONSES[i]}")
+	done
+	echo "ASDASDASD ${PAST_CONVERSATION[@]}"
+
 	# api call
 	RESPONSE=$(curl -s https://api.openai.com/v1/chat/completions \
 	  -H "Content-Type: application/json" \
@@ -48,6 +63,12 @@ else
 	     "temperature": 0.7
      	}' | jq -r .choices[0].message.content)
 	echo "RESPONSE $RESPONSE"
+
+	# replace user history string with the updated version	
+	if [[ -f "$HISTORYFILE" ]]; then
+		sed -i "1s/\"$USER_SESSION_HISTORY\"/\"$MESSAGE:$USER_SESSION_HISTORY\"/" "$HISTORYFILE"
+		source "$HISTORYFILE"
+	fi
 
 	# remove newlines so the assistant history string can be replaced
 	RESPONSE=$(echo "$RESPONSE" | tr '\n' ' ')
