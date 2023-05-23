@@ -39,6 +39,4 @@ gpt Hey
 
 ## TODO
 - Keep track of the session history, perhaps a restart_session function.
-- requirements.txt file (jq)
-- Installation description
 - Ignore symlink creation if it already exists
