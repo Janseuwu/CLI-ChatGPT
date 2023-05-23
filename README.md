@@ -27,6 +27,16 @@ To your shells rc-file. Also run `exec <your_shell>` to reload it.
 
 Thats it! Enjoy.
 
+## Usage
+If you want to use multiple arguments (like spaces in a sentence) then add " between your prompt.
+```
+gpt "Hey, did Epstein kill himself?"
+```
+Otherwise you can just run it with a single argument without ".
+```
+gpt Hey
+```
+
 ## TODO
 - Keep track of the session history, perhaps a restart_session function.
 - requirements.txt file (jq)
