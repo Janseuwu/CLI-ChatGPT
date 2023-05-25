@@ -1,6 +1,9 @@
 # CLI-ChatGPT
 Tool for interacting with ChatGPT directly from the terminal commandline.
 
+* [Installation](#installation)
+* [Usage](#usage)
+
 ## Installation
 Start by cloning the repo
 ```
