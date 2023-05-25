@@ -29,7 +29,7 @@ export PATH="$HOME/.local/bin:$PATH"
 ```
 Also run `exec <your_shell>` to reload the changes.
 
-Thats it! Enjoy.
+Thats it! Enjoy!
 
 ## Usage
 To use the tool, simply put `gpt <message>`. Generally you want to put your messages in quotes (" or ').
