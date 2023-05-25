@@ -56,9 +56,7 @@ else
 		PAST_CONVERSATION+=("${PAST_PROMPTS[i]}")
 		PAST_CONVERSATION+=("${PAST_RESPONSES[i]}")
 	done
-	echo BEFORE
 	PAST_CONVERSATION=$(printf "${PAST_CONVERSATION[@]}" | sed 's/ //g' )
-	echo AFTER
 	PAST_CONVERSATION=$(echo "${PAST_CONVERSATION[@]}")
 	# api call
 	RESPONSE=$(curl -s https://api.openai.com/v1/chat/completions \
