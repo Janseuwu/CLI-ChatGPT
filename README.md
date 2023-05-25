@@ -1,5 +1,5 @@
 # CLI-ChatGPT
-Tool for interacting with ChatGPT directly from the terminal commandline.
+Tool for interacting with ChatGPT directly from the terminal commandline. It is written in pure shell because we hate fun and love pain.
 
 * [Installation](#installation)
 * [Usage](#usage)
