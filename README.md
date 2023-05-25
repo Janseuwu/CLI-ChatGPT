@@ -50,3 +50,4 @@ gpt clear_session
 - Fix: Ignore symlink creation if it already exists
 - Rewrite a bit so it's more effecient, currently doing a lot of unnecessary steps. 
 - Have the API type out each word instead of dumping the answer.
+- Add support for use of the GPT-4 API
