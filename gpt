@@ -56,7 +56,9 @@ else
 		PAST_CONVERSATION+=("${PAST_PROMPTS[i]}")
 		PAST_CONVERSATION+=("${PAST_RESPONSES[i]}")
 	done
-	PAST_CONVERSATION=$(echo "${PAST_CONVERSATION[@]}" | tr " " "" )
+	echo BEFORE
+	PAST_CONVERSATION=$(printf "${PAST_CONVERSATION[@]}" | sed 's/ //g' )
+	echo AFTER
 	PAST_CONVERSATION=$(echo "${PAST_CONVERSATION[@]}")
 	# api call
 	RESPONSE=$(curl -s https://api.openai.com/v1/chat/completions \
@@ -76,7 +78,7 @@ else
 	fi
 
 	# remove newlines so the assistant history string can be replaced
-	RESPONSE=$(echo "$RESPONSE" | tr '\n' ' ')
+	RESPONSE=$(printf "$RESPONSE" | tr '\n' ' ' )
 	sed -i "2s/\"$ASSISTANT_SESSION_HISTORY\"/\"$RESPONSE½$ASSISTANT_SESSION_HISTORY\"/" "$HISTORYFILE"
 fi
 # reset IFS, so it doesn't interfere with other stuff
