@@ -13,7 +13,7 @@ git clone https://github.com/Janseuwu/CLI-ChatGPT.git
 
 Install requirements with your package-manager. Eg. apt
 ```
-apt install requirements.txt
+xargs sudo apt install <requirements.txt -y
 ```
 
 Run `setup.sh`
