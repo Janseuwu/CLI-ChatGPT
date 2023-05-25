@@ -46,6 +46,7 @@ gpt clear_session
 ```
 
 ## TODO
-- Keep track of the session history, perhaps a restart_session function.
+- Fix: First message in a new session is always `null`
+- Fix: Ignore symlink creation if it already exists
+- Rewrite a bit so it's more effecient, currently doing a lot of unnecessary steps. 
 - Have the API type out each word instead of dumping the answer.
-- Ignore symlink creation if it already exists

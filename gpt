@@ -1,5 +1,4 @@
 #!/usr/bin/sh
-set -x
 
 # Get API key from the keyfile
 # I sure hope this matches setup.sh
@@ -37,40 +36,38 @@ else
 	IFS="½" read -a PAST_PROMPTS_LIST <<< "$USER_SESSION_HISTORY"
 	PAST_PROMPTS=()
 	for item in "${PAST_PROMPTS_LIST[@]}"; do
-		PAST_PROMPTS+=("{\"role\": \"user\", \"content\": \"$item\"}")
+		PAST_PROMPTS+=("{\"role\": \"user\", \"content\": \"$item\"},")
 	done	
-	echo "PAST_PROMPTS ${PAST_PROMPTS[@]}"
 	# assistant history
 	IFS="½" read -a PAST_RESPONSE_LIST <<< "$ASSISTANT_SESSION_HISTORY"
-	echo "LIST ${PAST_RESPONSE_LIST[@]}"
 	PAST_RESPONSES=()
+	I_WANT_TO_DIE=0
 	for item in "${PAST_RESPONSE_LIST[@]}"; do
-		echo "ITEMS $item"
-		PAST_RESPONSES+=("{\"role\": \"assistant\", \"content\": \"$item\"}")
+		if [[ "$I_WANT_TO_DIE" == 0 ]]; then
+			I_WANT_TO_DIE=1
+			PAST_RESPONSES+=("{\"role\": \"assistant\", \"content\": \"$item\"}")
+		else
+			PAST_RESPONSES+=("{\"role\": \"assistant\", \"content\": \"$item\"},")
+		fi
 	done	
-	echo "PAST_RESPONSES ${PAST_RESPONSES}"
 	PAST_CONVERSATION=()
 	LENGTH=${#PAST_RESPONSES[@]}
-	echo "PAST_PROMPTS ${PAST_PROMPTS[@]}"
-	echo "PAST_RESPONSES ${PAST_RESPONSES[@]}"
-	echo "LENGTH $LENGTH"
 	for (( i="$LENGTH"; i>=0; i-- )); do
 		PAST_CONVERSATION+=("${PAST_PROMPTS[i]}")
 		PAST_CONVERSATION+=("${PAST_RESPONSES[i]}")
 	done
-	echo "ASDASDASD ${PAST_CONVERSATION[@]}"
 	PAST_CONVERSATION=$(echo "${PAST_CONVERSATION[@]}" | tr " " "" )
-	echo "ASDAKSJDAKSD2 ${PAST_CONVERSATION[@]}"
+	PAST_CONVERSATION=$(echo "${PAST_CONVERSATION[@]}")
 	# api call
-	RESPONSE=$(curl https://api.openai.com/v1/chat/completions \
+	RESPONSE=$(curl -s https://api.openai.com/v1/chat/completions \
 	  -H "Content-Type: application/json" \
 	  -H "Authorization: Bearer $OPENAI_API_KEY" \
 	  -d '{
 	     "model": "gpt-3.5-turbo",
-	     "messages": ['${PAST_CONVERSATION[@]}', {"role": "user", "content": "'"$MESSAGE"'"}],
+	     "messages": ['"$PAST_CONVERSATION"', {"role": "user", "content": "'"$MESSAGE"'"}],
 	     "temperature": 0.7
      	}' | jq -r .choices[0].message.content)
-	echo "RESPONSE $RESPONSE"
+	echo "$RESPONSE"
 
 	# replace user history string with the updated version	
 	if [[ -f "$HISTORYFILE" ]]; then
