@@ -62,6 +62,7 @@ else
 	PAST_CONVERSATION=$(printf "${PAST_CONVERSATION[@]}" | sed 's/ //g' )
 	PAST_CONVERSATION=$(echo "${PAST_CONVERSATION[@]}")
 	# api call
+	echo -e "Asking ChatGPT...\n"
 	RESPONSE=$(curl -s https://api.openai.com/v1/chat/completions \
 	  -H "Content-Type: application/json" \
 	  -H "Authorization: Bearer $OPENAI_API_KEY" \
@@ -70,8 +71,9 @@ else
 	     "messages": ['"$PAST_CONVERSATION"', {"role": "user", "content": "'"$MESSAGE"'"}],
 	     "temperature": 0.7
      	}' | jq -r .choices[0].message.content)
-	echo "$RESPONSE"
+	echo -e "$RESPONSE\n"
 
+	
 	# replace user history string with the updated version	
 	if [[ -f "$HISTORYFILE" ]]; then
 		sed -i "1s/\"$USER_SESSION_HISTORY\"/\"$MESSAGE½$USER_SESSION_HISTORY\"/" "$HISTORYFILE"
