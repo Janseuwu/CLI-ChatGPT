@@ -1,5 +1,8 @@
 #!/usr/bin/sh
 
+# i am aware this code is complete garb, i will rewrite at some point though 
+# it works perfectly fine(apart from the first message in a session being null but thats a minor detail, will fix)
+
 # Get API key from the keyfile
 # I sure hope this matches setup.sh
 MESSAGE=$1
