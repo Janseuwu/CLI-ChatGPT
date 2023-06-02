@@ -46,7 +46,6 @@ gpt clear_session
 ```
 
 ## TODO
-- Fix: First message in a new session is always `null`
 - Fix: Ignore symlink creation if it already exists
 - Rewrite a bit so it's more effecient, currently doing a lot of unnecessary steps. 
 - Have the API type out each word instead of dumping the answer.
