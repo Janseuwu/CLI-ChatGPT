@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # i am aware this code is complete garb, i will rewrite at some point though 
-# it works perfectly fine(apart from the first message in a session being null but thats a minor detail, will fix)
+# it works perfectly fine
 
 MESSAGE=$1
 # Get API key from the keyfile
@@ -20,16 +20,18 @@ function clear_session() {
 while getopts 'cht:' OPTION; do
 	case "$OPTION" in
 		h)
+			#TODO actually make this
 			echo "super helpful echo"
 			exit 0
 			;;
 		t)
+			#TODO make it so you can set the temperature and still send a message
 			temperature="$OPTARG"
 			echo "Temperature set to $temperature"
 			;;
 		c)
 			clear_session
-			gpt > /dev/null
+			gpt > /dev/null #TODO find a proper solution to fix the first message being null issue 💀
 			exit 0 
 			;;
 	esac
@@ -76,6 +78,7 @@ for (( i="$LENGTH"; i>=0; i-- )); do
 	PAST_CONVERSATION+=("${PAST_PROMPTS[i]}")
 	PAST_CONVERSATION+=("${PAST_RESPONSES[i]}")
 done
+# echo it twice because it doesn't work otherwise (???)
 PAST_CONVERSATION=$(printf "${PAST_CONVERSATION[@]}" | sed 's/ //g' )
 PAST_CONVERSATION=$(echo "${PAST_CONVERSATION[@]}")
 # api call
